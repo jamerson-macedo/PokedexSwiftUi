@@ -27,6 +27,7 @@ struct PokemonGridView: View {
                         // Nome do Pokémon
                         Text(pokemon.name.capitalized)
                             .font(.headline)
+                            .bold()
                             .padding(.bottom, 5)
 
                         // Lista de tipos como botões
@@ -35,7 +36,7 @@ struct PokemonGridView: View {
                                 ForEach(pokemon.types, id: \.type.name) { pokemonType in
                                     Text(pokemonType.type.name.capitalized)
                                         .padding(8)
-                                        .background(pokemon.primaryColor().opacity(0.3))
+                                        .background(pokemon.primaryColor().opacity(0.1))
                                         .cornerRadius(20)
                                         .foregroundColor(pokemon.primaryColor())
                                         .font(.subheadline)

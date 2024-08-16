@@ -9,22 +9,25 @@ import SwiftUI
 
 struct PokedexView: View {
     @ObservedObject var viewModel = PokedexViewModel(repository: PokemonRepository())
-    @State var textSearch = ""
     var body: some View {
         VStack{
             NavigationView{
                 PokemonGridView(pokemons: viewModel.pokemons)
                     .navigationTitle("Pokemons")
-                        .searchable(text:$textSearch,prompt: "Buscar pokemon")
-                
-                
+                    .searchable(text:$viewModel.searchText,prompt: "Buscar pokemon") .onChange(of: viewModel.searchText) { _,_ in
+                        viewModel.applySearchFilter()
+                    }
+                        
+                        
+                    }
+            }.onAppear{
+                viewModel.getPokemons()
             }
-        }.onAppear{
-            viewModel.getPokemons()
+            
         }
         
     }
-}
+
 
 
 #Preview {
