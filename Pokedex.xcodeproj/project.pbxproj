@@ -17,6 +17,7 @@
 		CF422F072C6EEB520099BAA8 /* PokemonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF422F062C6EEB520099BAA8 /* PokemonRepository.swift */; };
 		CF422F092C6EFA8E0099BAA8 /* PokemonCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF422F082C6EFA8E0099BAA8 /* PokemonCardView.swift */; };
 		CF422F0B2C6F156C0099BAA8 /* PokemonDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF422F0A2C6F156C0099BAA8 /* PokemonDetails.swift */; };
+		CF422F0D2C6F2E490099BAA8 /* PokedexDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF422F0C2C6F2E490099BAA8 /* PokedexDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		CF422F062C6EEB520099BAA8 /* PokemonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonRepository.swift; sourceTree = "<group>"; };
 		CF422F082C6EFA8E0099BAA8 /* PokemonCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCardView.swift; sourceTree = "<group>"; };
 		CF422F0A2C6F156C0099BAA8 /* PokemonDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetails.swift; sourceTree = "<group>"; };
+		CF422F0C2C6F2E490099BAA8 /* PokedexDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 			children = (
 				CF422EF32C6EDE120099BAA8 /* PokedexView.swift */,
 				CF422F082C6EFA8E0099BAA8 /* PokemonCardView.swift */,
+				CF422F0C2C6F2E490099BAA8 /* PokedexDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF422F0D2C6F2E490099BAA8 /* PokedexDetailView.swift in Sources */,
 				CF422F0B2C6F156C0099BAA8 /* PokemonDetails.swift in Sources */,
 				CF422F032C6EE0C90099BAA8 /* PokedexViewModel.swift in Sources */,
 				CF422F072C6EEB520099BAA8 /* PokemonRepository.swift in Sources */,
