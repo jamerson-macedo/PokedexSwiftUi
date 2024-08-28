@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct PokedexView: View {
-    @ObservedObject var viewModel = PokedexViewModel(repository: PokemonRepository())
+    @ObservedObject private var viewModel = PokedexViewModel()
     var body: some View {
-        VStack{
-            PokemonGridView(pokemons: viewModel.pokemons)
-                .searchable(text:$viewModel.searchText,prompt: "Buscar pokemon") .onChange(of: viewModel.searchText) { _,_ in
-                    viewModel.applySearchFilter()
-                }
-            
+        NavigationView{
+            if viewModel.isLoading {
+                ProgressView()
+            }else if let errorMessage = viewModel.errorMessage{
+                Text("Error \(errorMessage)")
+            }else {
+                List(viewModel.pokemons){ pokemon in
+                    NavigationLink(destination: PokemonDetailView(pokemonID: pokemon.id)){
+                        
+                        
+                        HStack{
+                          
+                            Text(pokemon.name.capitalized)
+                        }
+                    }
+                }.navigationTitle("Pokemon")
+            }
         }.onAppear{
             viewModel.getPokemons()
         }

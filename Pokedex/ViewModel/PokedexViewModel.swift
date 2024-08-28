@@ -1,38 +1,32 @@
 import Foundation
-
+import Combine
 class PokedexViewModel: ObservableObject {
-    @Published var pokemons = [Pokemon]()
-    
-    private let repository: PokemonRepository
-    
+    @Published var pokemons = [PokemonBasic]()
+    @Published var errorMessage :String? = nil
     @Published var searchText: String = ""
+    @Published var isLoading : Bool = false
+ 
+    private let service = PokemonService()
+    private var allPokemons: [PokemonBasic] = []
     
-    private var allPokemons: [Pokemon] = []
+    private var cancelable = Set<AnyCancellable>()
     
-    
-    init(repository: PokemonRepository = PokemonRepository()) {
-        self.repository = repository
-       
-    }
-    
+   
     func getPokemons() {
-        repository.getPokemons { [weak self] pokemons, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    print("Error: \(error)")
-                }
+        isLoading = true
+        service.fetchPokemonList().receive(on: DispatchQueue.main).sink{ [weak self] completion in
+            self?.isLoading = false
+            switch completion {
+            case .finished:
+                break
+            case .failure(let error):
+                self?.errorMessage = error.localizedDescription
             }
-            let filteredPokemons = pokemons.filter { $0.imageUrl != nil }.sorted { $0.id < $1.id}
+           
             
-            
-            DispatchQueue.main.async {
-                
-                self?.allPokemons = filteredPokemons
-                self?.applySearchFilter()
-                print("Lista de pokemons: \(pokemons)")
-            }
-            
-        }
+        }receiveValue: { [weak self] pokemons in
+            self?.pokemons = pokemons
+        }.store(in: &cancelable)
     }
     func applySearchFilter() {
         if searchText.isEmpty {
