@@ -10,7 +10,7 @@ class PokemonService {
         }
         
         return URLSession.shared.dataTaskPublisher(for: url)
-            .tryMap { data, response in
+            .tryCompactMap { data, response in
                 // Decodificar o JSON manualmente
                 guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
                       let jsonDict = jsonObject as? [String: String] else {
@@ -39,7 +39,7 @@ class PokemonService {
             }
             
             return URLSession.shared.dataTaskPublisher(for: url)
-                .tryMap { data, response in
+            .tryCompactMap { data, response in
                     // Decodificar o JSON como um array
                     let pokemonArray = try JSONDecoder().decode([PokemonDetails].self, from: data)
                     guard let pokemon = pokemonArray.first else {

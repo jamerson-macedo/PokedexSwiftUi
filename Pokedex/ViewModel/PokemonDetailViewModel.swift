@@ -24,6 +24,7 @@ class PokemonDetailViewModel : ObservableObject{
                 break
             case .failure(let error):
                 self?.errorMessage = error.localizedDescription
+                break
             }
         } receiveValue: { pokemon in
             self.pokemon = pokemon

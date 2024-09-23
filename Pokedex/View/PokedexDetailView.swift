@@ -1,5 +1,6 @@
 import SwiftUI
 
+
 struct PokemonDetailView: View {
     let pokemonID: Int
     @StateObject private var viewModel = PokemonDetailViewModel()
@@ -18,6 +19,7 @@ struct PokemonDetailView: View {
                             image.resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 200, height: 200)
+                                .shadow(radius: 10)
                         } placeholder: {
                             ProgressView()
                         }
@@ -28,15 +30,22 @@ struct PokemonDetailView: View {
                         Text(pokemon.name.capitalized)
                             .font(.largeTitle)
                             .fontWeight(.bold)
+                            .foregroundColor(.blue)
                             .padding(.horizontal)
                         
                         // Tipo
                         VStack(alignment: .leading) {
                             Text("Tipo(s):")
                                 .font(.headline)
-                            ForEach(pokemon.types, id: \.self) { type in
-                                Text(type)
-                                    .font(.body)
+                            HStack {
+                                ForEach(pokemon.types, id: \.self) { type in
+                                    Text(type)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 8)
+                                        .background(Color.blue.opacity(0.1))
+                                        .cornerRadius(8)
+                                        .font(.body)
+                                }
                             }
                         }
                         .padding(.horizontal)
@@ -52,24 +61,33 @@ struct PokemonDetailView: View {
                         }
                         .padding(.horizontal)
                         
-                        // Estatísticas Base
+                        // Estatísticas Base com Animação de Preenchimento
                         VStack(alignment: .leading) {
                             Text("Estatísticas Base:")
                                 .font(.headline)
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("HP: \(pokemon.baseStats.hp)")
-                                    Text("Ataque: \(pokemon.baseStats.attack)")
-                                    Text("Defesa: \(pokemon.baseStats.defense)")
-                                }
-                                Spacer()
-                                VStack(alignment: .leading) {
-                                    Text("Sp. Ataque: \(pokemon.baseStats.spAtk)")
-                                    Text("Sp. Defesa: \(pokemon.baseStats.spDef)")
-                                    Text("Velocidade: \(pokemon.baseStats.speed)")
+                            ForEach(pokemon.baseStats.allStats, id: \.name) { stat in
+                                HStack {
+                                    Text("\(stat.name)").frame(width: 100).padding(.horizontal, 12)
+                                        .padding(.vertical, 8)
+                                        .background(Color.blue.opacity(0.1))
+                                        .cornerRadius(8)
+                                        .font(.body)
+                                    GeometryReader { geometry in
+                                        ZStack(alignment: .leading) {
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .frame(height: 10)
+                                                .foregroundColor(.gray.opacity(0.3))
+                                            
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .frame(width: min(CGFloat(stat.value) / 255 * geometry.size.width, geometry.size.width), height: 10)
+                                                .foregroundColor(.blue)
+                                                .animation(.easeInOut(duration: 1), value: stat.value)
+                                        }
+                                    }
+                                    .frame(height: 10)
+                                    Text("\(stat.value)")
                                 }
                             }
-                            .font(.body)
                         }
                         .padding(.horizontal)
                         
@@ -94,4 +112,7 @@ struct PokemonDetailView: View {
             viewModel.fetchPokemonDetail(id: pokemonID)
         }
     }
+}
+#Preview {
+    PokemonDetailView(pokemonID: 0)
 }

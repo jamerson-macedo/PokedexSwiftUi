@@ -36,3 +36,22 @@ struct BaseStats: Decodable {
     let spDef: Int
     let speed: Int
 }
+
+struct PokemonStat: Identifiable {
+    let id = UUID()
+    let name: String
+    let value: Int
+}
+
+extension BaseStats {
+    var allStats: [PokemonStat] {
+        return [
+            PokemonStat(name: "HP", value: self.hp),
+            PokemonStat(name: "Ataque", value: self.attack),
+            PokemonStat(name: "Defesa", value: self.defense),
+            PokemonStat(name: "Sp. Ataque", value: self.spAtk),
+            PokemonStat(name: "Sp. Defesa", value: self.spDef),
+            PokemonStat(name: "Velocidade", value: self.speed)
+        ]
+    }
+}
